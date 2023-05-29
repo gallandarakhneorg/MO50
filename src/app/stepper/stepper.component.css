@@ -1,0 +1,38 @@
+.container{
+  font-family: Open Sans,Arial,sans-serif;
+  font-weight: lighter;
+  flex-direction: column;
+  padding-top: 3%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.center{
+  font-family: Open Sans,Arial,sans-serif;
+  font-weight: lighter;
+  text-align: center;
+}
+
+mat-form-field{
+  width: 400px;
+}
+.green{
+  color: green;
+}
+
+.flex-container{
+  display: flex;
+}
+.vertical{
+  flex-direction: column;
+}
+.space-between{
+  justify-content: space-between;
+}
+
+.invisible{
+  display: none;
+}
+.bold{
+  font-weight: bold;
+}
