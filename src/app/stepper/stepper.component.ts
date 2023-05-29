@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormGroup} from "@angular/forms";
 import {StepperService} from "../stepper.service";
 
 @Component({
@@ -47,6 +47,8 @@ export class StepperComponent {
       const file = inputNode.files[0];
 
       reader.onload = (e: any) => {
+        // This is the content of the file, to send to the back end
+        let srcResult = e.target.result;
         formControl.setValue(file.name);
       };
       reader.readAsArrayBuffer(file);
@@ -65,29 +67,24 @@ export class StepperComponent {
     if(selectName == "Publication type"){
       switch(publicationTypeSelected){
         case "Chapters in national scientific books [COS]":
-
-          this.stepperFormGroup.controls.steps.controls.pop();
-          this.stepperFormGroup.controls.steps.controls.pop();
-          this.stepperFormGroup.controls.steps.controls.pop();
-          this.stepperFormGroup.controls.steps.controls.push(this.stepperService.chaptersInternationalBookFormGroup);
-          this.stepperFormGroup.controls.steps.controls.push(this.stepperService.step4FormGroup);
-          this.stepperFormGroup.controls.steps.controls.push(this.stepperService.step5FormGroup);
-
-          this.stepperNames[2] = this.stepperService.chaptersInternationalBookStepNames;
-
+          this.updateThirdStep(this.stepperService.chaptersInternationalBookFormGroup, this.stepperService.chaptersInternationalBookStepNames);
           break;
         case "HDR theses [TH]":
-          this.stepperFormGroup.controls.steps.controls.pop();
-          this.stepperFormGroup.controls.steps.controls.pop();
-          this.stepperFormGroup.controls.steps.controls.pop();
-          this.stepperFormGroup.controls.steps.controls.push(this.stepperService.HDRThesesFormGroup);
-          this.stepperFormGroup.controls.steps.controls.push(this.stepperService.step4FormGroup);
-          this.stepperFormGroup.controls.steps.controls.push(this.stepperService.step5FormGroup);
-
-          this.stepperNames[2] = this.stepperService.HDRThesesStepNames;
+          this.updateThirdStep(this.stepperService.HDRThesesFormGroup, this.stepperService.HDRThesesStepNames);
           break;
       }
     }
+  }
+
+  updateThirdStep(newFormGroup: any, newStepNames: any){
+    this.stepperFormGroup.controls.steps.controls.pop();
+    this.stepperFormGroup.controls.steps.controls.pop();
+    this.stepperFormGroup.controls.steps.controls.pop();
+    this.stepperFormGroup.controls.steps.controls.push(newFormGroup);
+    this.stepperFormGroup.controls.steps.controls.push(this.stepperService.step4FormGroup);
+    this.stepperFormGroup.controls.steps.controls.push(this.stepperService.step5FormGroup);
+
+    this.stepperNames[2] = newStepNames;
   }
 
 }

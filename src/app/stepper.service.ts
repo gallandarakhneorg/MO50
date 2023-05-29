@@ -115,7 +115,7 @@ export class StepperService {
     fileInputArray: []
   }
   step4Names = {
-    stepName: "Specific information",
+    stepName: "Details",
     selectArray: [
     ],
     textInputArray: [

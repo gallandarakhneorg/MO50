@@ -3,19 +3,19 @@
 
   <mat-horizontal-stepper [linear]="true" #stepper>
     <!-- Iterate through all steps of the stepper -->
-    <mat-step *ngFor="let step of steps.controls;index as idx" [stepControl]="step" [label]="stepperNames[idx]['stepName']">
+    <mat-step *ngFor="let step of steps.controls;index as stepIndex" [stepControl]="step" [label]="stepperNames[stepIndex]['stepName']">
       <form>
         <!-- Display the selection type forms if they exist -->
         <div *ngIf="getSelectArray(step)">
           <div *ngFor="let select of getSelectArray(step).controls;index as selectIndex" [formGroup]="castToFormGroup(select)">
             <mat-form-field>
-              <mat-label>{{stepperNames[idx]['selectArray'][selectIndex]['selectName']}}</mat-label>
-              <mat-select [formControlName]="'formControl'" [required]="stepperNames[idx]['selectArray'][selectIndex]['required']">
-                <mat-option *ngFor="let selectOption of stepperNames[idx]['selectArray'][selectIndex]['values'];" value="{{selectOption}}"
-                (click)="updateSpecificInformationForm(selectOption, stepperNames[idx]['selectArray'][selectIndex]['selectName'])"
+              <mat-label>{{stepperNames[stepIndex]['selectArray'][selectIndex]['selectName']}}</mat-label>
+              <mat-select [formControlName]="'formControl'" [required]="stepperNames[stepIndex]['selectArray'][selectIndex]['required']">
+                <mat-option *ngFor="let selectOption of stepperNames[stepIndex]['selectArray'][selectIndex]['values'];" value="{{selectOption}}"
+                            (click)="updateSpecificInformationForm(selectOption, stepperNames[stepIndex]['selectArray'][selectIndex]['selectName'])"
                 >{{selectOption}}</mat-option>
               </mat-select>
-              <mat-error *ngIf="select.get('formControl')?.hasError('required')">{{stepperNames[idx]['selectArray'][selectIndex]['errorMessage']}}</mat-error>
+              <mat-error *ngIf="select.get('formControl')?.hasError('required')">{{stepperNames[stepIndex]['selectArray'][selectIndex]['errorMessage']}}</mat-error>
             </mat-form-field>
           </div>
         </div>
@@ -24,10 +24,10 @@
         <div *ngIf="getTextInputArray(step)">
           <div *ngFor="let text of getTextInputArray(step).controls;index as textIndex" [formGroup]="castToFormGroup(text)">
             <mat-form-field>
-              <mat-label>{{stepperNames[idx]['textInputArray'][textIndex]['name']}}</mat-label>
-            <input matInput [formControlName]="'formControl'" placeholder="{{stepperNames[idx]['textInputArray'][textIndex]['placeHolder']}}"
-                   [required] = "stepperNames[idx]['textInputArray'][textIndex]['required']">
-            <mat-error *ngIf="text.get('formControl')?.hasError('required')">{{stepperNames[idx]['textInputArray'][textIndex]['errorMessage']}}</mat-error>
+              <mat-label>{{stepperNames[stepIndex]['textInputArray'][textIndex]['name']}}</mat-label>
+            <input matInput [formControlName]="'formControl'" placeholder="{{stepperNames[stepIndex]['textInputArray'][textIndex]['placeHolder']}}"
+                   [required] = "stepperNames[stepIndex]['textInputArray'][textIndex]['required']">
+            <mat-error *ngIf="text.get('formControl')?.hasError('required')">{{stepperNames[stepIndex]['textInputArray'][textIndex]['errorMessage']}}</mat-error>
             </mat-form-field>
           </div>
         </div>
@@ -36,14 +36,14 @@
         <div *ngIf="getFileInputArray(step)">
           <div *ngFor="let fileInputField of getFileInputArray(step).controls;index as fileInputIndex" [formGroup]="castToFormGroup(fileInputField)">
             <mat-form-field>
-              <mat-label>{{stepperNames[idx]['fileInputArray'][fileInputIndex]['name']}}</mat-label>
+              <mat-label>{{stepperNames[stepIndex]['fileInputArray'][fileInputIndex]['name']}}</mat-label>
               <br>
               <input class="invisible" hidden matInput [formControlName]="'formControl'"
-                     [required] = "stepperNames[idx]['fileInputArray'][fileInputIndex]['required']">
+                     [required] = "stepperNames[stepIndex]['fileInputArray'][fileInputIndex]['required']">
               <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
               <input hidden (change)="onFileSelected(fileInputField.get('formControl'))" #fileInput type="file" id="file">
               <p>{{fileInputField.get('formControl')?.value}}</p>
-              <mat-error *ngIf="fileInputField.get('formControl')?.hasError('required')">{{stepperNames[idx]['fileInputArray'][fileInputIndex]['errorMessage']}}</mat-error>
+              <mat-error *ngIf="fileInputField.get('formControl')?.hasError('required')">{{stepperNames[stepIndex]['fileInputArray'][fileInputIndex]['errorMessage']}}</mat-error>
             </mat-form-field>
           </div>
         </div>
@@ -51,29 +51,35 @@
 
       <!-- Previous and next buttons to navigate through steps -->
       <div class="flex-container space-between">
-        <button *ngIf="idx > 0" mat-raised-button matStepperPrevious>Previous</button>
-        <div *ngIf="idx == 0"></div>
+        <button *ngIf="stepIndex > 0" mat-raised-button matStepperPrevious>Previous</button>
+        <div *ngIf="stepIndex == 0"></div>
         <div *ngIf="step.valid">
           <button mat-raised-button matStepperNext color="primary">Next</button>
         </div>
       </div>
     </mat-step>
+
+    <!-- Display the last step containing all user input for validation -->
     <mat-step [label]="'Validation'">
       <div class="flex-container space-between">
+        <!-- Iterate through all steps to get form values -->
         <div *ngFor="let step of steps.controls;index as idx">
           <div class="flex-container vertical space-between">
+            <!-- Get selection form values -->
             <div *ngIf="getSelectArray(step)">
               <div *ngFor="let select of getSelectArray(step).controls;index as selectIndex">
                 <p class="bold">{{stepperNames[idx]['selectArray'][selectIndex]['selectName']}}</p>
                 <p>{{getInput(select.get('formControl')?.value)}}</p>
               </div>
             </div>
+            <!-- Get text input form values -->
             <div *ngIf="getTextInputArray(step)">
               <div *ngFor="let text of getTextInputArray(step).controls; index as textIndex">
                 <p class="bold">{{stepperNames[idx]['textInputArray'][textIndex]['name']}}</p>
                 <p>{{getInput(text.get('formControl')?.value)}}</p>
               </div>
             </div>
+            <!-- Get file input form values -->
             <div *ngIf="getFileInputArray(step)">
               <div *ngFor="let fileInput of getFileInputArray(step).controls;index as fileInputIndex">
                 <p class="bold">{{stepperNames[idx]['fileInputArray'][fileInputIndex]['name']}}</p>
