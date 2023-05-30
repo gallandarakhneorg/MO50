@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {FormArray, FormGroup} from "@angular/forms";
-import {StepperService} from "../stepper.service";
+import { FormArray, FormGroup } from "@angular/forms";
+import { StepperService } from "../stepper.service";
 
 @Component({
   selector: 'app-stepper',
@@ -9,36 +9,47 @@ import {StepperService} from "../stepper.service";
 })
 export class StepperComponent {
 
-  stepperNames : any;
+  // Array containing the stepper names
+  stepperNames: any;
 
-  stepperFormGroup : any;
+  // FormGroup for the stepper
+  stepperFormGroup: any;
+
   constructor(private stepperService: StepperService) {
+    // Initialize the stepperFormGroup and stepperNames using the service
     this.stepperFormGroup = stepperService.stepperFormGroup;
     this.stepperNames = stepperService.stepperNames;
   }
 
+  // Getter for accessing the steps FormArray
   get steps(): FormArray {
     return this.stepperFormGroup.get('steps') as FormArray;
   }
 
-  castToFormGroup(formGroup: any){
+  // Utility function to cast a formGroup to FormGroup type
+  castToFormGroup(formGroup: any) {
     return formGroup as FormGroup;
   }
 
+  // Utility function to get the selectArray from a formGroup
   getSelectArray(formGroup: any) {
-    let array = formGroup.get('selectArray')
+    let array = formGroup.get('selectArray');
     return array as FormArray;
   }
 
+  // Utility function to get the textInputArray from a formGroup
   getTextInputArray(formGroup: any) {
-    let array = formGroup.get('textInputArray')
+    let array = formGroup.get('textInputArray');
     return array as FormArray;
   }
 
+  // Utility function to get the fileInputArray from a formGroup
   getFileInputArray(formGroup: any) {
-    let array = formGroup.get('fileInputArray')
+    let array = formGroup.get('fileInputArray');
     return array as FormArray;
   }
+
+  // Event handler for file selection
   onFileSelected(formControl: any) {
     const inputNode: any = document.querySelector('#file');
 
@@ -55,17 +66,18 @@ export class StepperComponent {
     }
   }
 
-  getInput(input: string)
-  {
-    if(input == ""){
+  // Utility function to get the input value or "Empty" if it's empty
+  getInput(input: string) {
+    if (input == "") {
       return "Empty";
     }
     return input;
   }
 
-  updateSpecificInformationForm(publicationTypeSelected: string, selectName: string){
-    if(selectName == "Publication type"){
-      switch(publicationTypeSelected){
+  // Update the specific information form based on the selected publication type
+  updateSpecificInformationForm(publicationTypeSelected: string, selectName: string) {
+    if (selectName == "Publication type") {
+      switch (publicationTypeSelected) {
         case "Chapters in national scientific books [COS]":
           this.updateThirdStep(this.stepperService.chaptersInternationalBookFormGroup, this.stepperService.chaptersInternationalBookStepNames);
           break;
@@ -76,15 +88,19 @@ export class StepperComponent {
     }
   }
 
-  updateThirdStep(newFormGroup: any, newStepNames: any){
+  // Update the third step of the stepper with a new formGroup and step names
+  updateThirdStep(newFormGroup: any, newStepNames: any) {
+    // Remove the existing controls from the third step
     this.stepperFormGroup.controls.steps.controls.pop();
     this.stepperFormGroup.controls.steps.controls.pop();
     this.stepperFormGroup.controls.steps.controls.pop();
+
+    // Add the new formGroup and other formGroups back to the third step
     this.stepperFormGroup.controls.steps.controls.push(newFormGroup);
     this.stepperFormGroup.controls.steps.controls.push(this.stepperService.step4FormGroup);
     this.stepperFormGroup.controls.steps.controls.push(this.stepperService.step5FormGroup);
 
+    // Update the step names for the third step
     this.stepperNames[2] = newStepNames;
   }
-
 }
