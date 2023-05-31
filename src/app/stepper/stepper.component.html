@@ -21,15 +21,15 @@
         </div>
 
         <!-- Display the text input forms if they exist -->
-        <div *ngIf="getTextInputArray(step)">
-          <div *ngFor="let text of getTextInputArray(step).controls;index as textIndex" [formGroup]="castToFormGroup(text)">
-            <mat-form-field>
-              <mat-label>{{stepperNames[stepIndex]['textInputArray'][textIndex]['name']}}</mat-label>
-            <input matInput [formControlName]="'formControl'" placeholder="{{stepperNames[stepIndex]['textInputArray'][textIndex]['placeHolder']}}"
-                   [required] = "stepperNames[stepIndex]['textInputArray'][textIndex]['required']">
-            <mat-error *ngIf="text.get('formControl')?.hasError('required')">{{stepperNames[stepIndex]['textInputArray'][textIndex]['errorMessage']}}</mat-error>
-            </mat-form-field>
-          </div>
+        <div class="flex-container-form space-between wrap" *ngIf="getTextInputArray(step)">
+            <div *ngFor="let text of getTextInputArray(step).controls;index as textIndex" [formGroup]="castToFormGroup(text)">
+              <mat-form-field>
+                <mat-label>{{stepperNames[stepIndex]['textInputArray'][textIndex]['name']}}</mat-label>
+              <input matInput [formControlName]="'formControl'" placeholder="{{stepperNames[stepIndex]['textInputArray'][textIndex]['placeHolder']}}"
+                     [required] = "stepperNames[stepIndex]['textInputArray'][textIndex]['required']">
+              <mat-error *ngIf="text.get('formControl')?.hasError('required')">{{stepperNames[stepIndex]['textInputArray'][textIndex]['errorMessage']}}</mat-error>
+              </mat-form-field>
+            </div>
         </div>
 
         <!-- Display the file input forms if they exist -->

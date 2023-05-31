@@ -14,14 +14,24 @@
 }
 
 mat-form-field{
-  width: 400px;
+  width: 450px;
 }
 .green{
   color: green;
 }
 
+.flex-container-form{
+  display: flex;
+}
 .flex-container{
   display: flex;
+}
+.wrap{
+  flex-wrap: wrap;
+}
+.flex-container-form > div {
+  flex: 0 0 calc(20% - 20px); /* This will allow 5 items per row. The 20px is assuming you want a 10px gap on each side of a column. */
+  margin: 10px;
 }
 .vertical{
   flex-direction: column;

@@ -17,18 +17,18 @@ import {CommonModule} from "@angular/common";
     AppComponent,
     StepperComponent
   ],
-  imports: [
-    BrowserModule,
-    CommonModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MatStepperModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule
-  ],
+    imports: [
+        BrowserModule,
+        CommonModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatStepperModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
