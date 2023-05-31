@@ -9,6 +9,8 @@ import { StepperService } from "../stepper.service";
 })
 export class StepperComponent {
 
+  publicationTypeSelected: string="";
+
   // Array containing the stepper names
   stepperNames: any;
 
@@ -79,17 +81,18 @@ export class StepperComponent {
     if (selectName == "Publication type") {
       switch (publicationTypeSelected) {
         case "Chapters in national scientific books [COS]":
-          this.updateThirdStep(this.stepperService.chaptersInternationalBookFormGroup, this.stepperService.chaptersInternationalBookStepNames);
+          this.updateThirdStep(this.stepperService.chaptersInternationalBookStepNames);
           break;
         case "HDR theses [TH]":
-          this.updateThirdStep(this.stepperService.HDRThesesFormGroup, this.stepperService.HDRThesesStepNames);
+          this.updateThirdStep(this.stepperService.HDRThesesStepNames);
           break;
       }
     }
   }
 
   // Update the third step of the stepper with a new formGroup and step names
-  updateThirdStep(newFormGroup: any, newStepNames: any) {
+  updateThirdStep(newStepNames: any) {
+
     // Remove the existing controls from the third step
     this.stepperFormGroup.controls.steps.controls.pop();
     this.stepperFormGroup.controls.steps.controls.pop();
