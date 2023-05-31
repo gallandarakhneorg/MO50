@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StepperService {
 
-  // Regular expressions for validation
   dateRegex = /^(0[1-9]|[1-2][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{2}$/;
-  ISBNRegex = /^\d{1}-\d{3}-\d{5}-\d{1}$/;
-  ISSNRegex = /^\d{4}-\d{4}$/;
+  ISBNRegex= /^\d{1}-\d{3}-\d{5}-\d{1}$/;
+  ISSNRegex= /^\d{4}-\d{4}$/;
   authorsRegex = /^[A-Za-z\s]+$/;
   doiRegex = /^10\.\d{4}\/\w{4}\/\w{5}$/;
 
 
-  // Step names and form field configurations
   step1Names = {
     stepName: "Publication Type",
     selectArray: [{
@@ -22,13 +20,16 @@ export class StepperService {
       "values": ["Chapters in national scientific books [COS]", "HDR theses [TH]"],
       "errorMessage": "Please choose a publication type",
       "required": true
-    }],
-    textInputArray: [],
+    }
+    ],
+    textInputArray: [
+    ],
     fileInputArray: []
   }
   step2Names = {
     stepName: "General information",
-    selectArray: [],
+    selectArray: [
+    ],
     textInputArray: [
       {
         "name": "Title",
@@ -39,13 +40,11 @@ export class StepperService {
       {
         "name": "Authors",
         "placeHolder": "John Smith",
-        "pattern": "",
         "errorMessage": "Invalid list of authors",
         "required": true
       },
       {
         "name": "Publication date",
-        "pattern": "",
         "placeHolder": "jj/mm/aa",
         "errorMessage": "Please follow this template : jj/mm/aa",
         "required": true
@@ -55,7 +54,8 @@ export class StepperService {
   }
   chaptersInternationalBookStepNames = {
     stepName: "Specific information",
-    selectArray: [],
+    selectArray: [
+    ],
     textInputArray: [
       {
         "name": "Title of the book",
@@ -110,10 +110,11 @@ export class StepperService {
   }
   HDRThesesStepNames = {
     stepName: "Specific information",
-    selectArray: [],
+    selectArray: [
+    ],
     textInputArray: [
       {
-        "name": "Institution",
+        "name": "TA MERE LA PUTE",
         "placeHolder": "Name of the publishing institution",
         "errorMessage": "",
         "required": false
@@ -141,7 +142,8 @@ export class StepperService {
   }
   step4Names = {
     stepName: "Details",
-    selectArray: [],
+    selectArray: [
+    ],
     textInputArray: [
       {
         "name": "Digital object identifier (DOI)",
@@ -196,7 +198,8 @@ export class StepperService {
   }
   step5Names = {
     stepName: "Upload",
-    selectArray: [],
+    selectArray: [
+    ],
     textInputArray: [],
     fileInputArray: [
       {
@@ -214,7 +217,6 @@ export class StepperService {
     ]
   }
 
-  // Array of step names and form field configurations
   stepperNames = [
     this.step1Names,
     this.step2Names,
@@ -223,7 +225,6 @@ export class StepperService {
     this.step5Names
   ]
 
-  // FormGroups for each step
   step1FormGroup = new FormGroup({
     selectArray: new FormArray([
       new FormGroup({
@@ -337,7 +338,6 @@ export class StepperService {
     ]),
   });
 
-  // Overall FormGroup for the stepper
   stepperFormGroup = new FormGroup({
     steps: new FormArray([
       this.step1FormGroup,
@@ -347,7 +347,5 @@ export class StepperService {
       this.step5FormGroup
     ])
   });
-
-  constructor() {
-  }
+  constructor() { }
 }
