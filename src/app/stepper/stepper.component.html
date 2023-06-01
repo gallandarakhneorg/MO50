@@ -25,9 +25,14 @@
             <div *ngFor="let text of getTextInputArray(step).controls;index as textIndex" [formGroup]="castToFormGroup(text)">
               <mat-form-field>
                 <mat-label>{{stepperNames[stepIndex]['textInputArray'][textIndex]['name']}}</mat-label>
-              <input matInput [formControlName]="'formControl'" placeholder="{{stepperNames[stepIndex]['textInputArray'][textIndex]['placeHolder']}}"
-                     [required] = "stepperNames[stepIndex]['textInputArray'][textIndex]['required']">
-              <mat-error *ngIf="text.get('formControl')?.hasError('required')">{{stepperNames[stepIndex]['textInputArray'][textIndex]['errorMessage']}}</mat-error>
+                <textarea *ngIf="stepperNames[stepIndex]['textInputArray'][textIndex]['name'] == 'Abstract Text';else elseBlock "
+                          cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="20" matInput  [formControlName]="'formControl'" placeholder="{{stepperNames[stepIndex]['textInputArray'][textIndex]['placeHolder']}}"
+                          [required] = "stepperNames[stepIndex]['textInputArray'][textIndex]['required']"></textarea>
+                <ng-template #elseBlock>
+                  <input matInput [formControlName]="'formControl'" placeholder="{{stepperNames[stepIndex]['textInputArray'][textIndex]['placeHolder']}}"
+                         [required] = "stepperNames[stepIndex]['textInputArray'][textIndex]['required']">
+                </ng-template>
+                <mat-error *ngIf="text.get('formControl')?.hasError('required')">{{stepperNames[stepIndex]['textInputArray'][textIndex]['errorMessage']}}</mat-error>
               </mat-form-field>
             </div>
         </div>
@@ -66,21 +71,23 @@
         <div *ngFor="let step of steps.controls;index as idx">
           <div class="flex-container vertical space-between">
             <!-- Get selection form values -->
-            <div *ngIf="getSelectArray(step)">
+            <div class="flex-container-form space-between wrap" *ngIf="getSelectArray(step)">
               <div *ngFor="let select of getSelectArray(step).controls;index as selectIndex">
                 <p class="bold">{{stepperNames[idx]['selectArray'][selectIndex]['selectName']}}</p>
                 <p>{{getInput(select.get('formControl')?.value)}}</p>
               </div>
             </div>
             <!-- Get text input form values -->
-            <div *ngIf="getTextInputArray(step)">
+            <div class="flex-container-form space-between wrap" *ngIf="getTextInputArray(step)">
               <div *ngFor="let text of getTextInputArray(step).controls; index as textIndex">
                 <p class="bold">{{stepperNames[idx]['textInputArray'][textIndex]['name']}}</p>
-                <p>{{getInput(text.get('formControl')?.value)}}</p>
+                <textarea cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="20" matInput *ngIf="stepperNames[idx]['textInputArray'][textIndex]['name'] == 'Abstract Text';else elseBlock " readonly>{{getInput(text.get('formControl')?.value)}}</textarea>
+                <ng-template #elseBlock><p>{{getInput(text.get('formControl')?.value)}}</p></ng-template>
+
               </div>
             </div>
             <!-- Get file input form values -->
-            <div *ngIf="getFileInputArray(step)">
+            <div class="flex-container-form space-between wrap" *ngIf="getFileInputArray(step)">
               <div *ngFor="let fileInput of getFileInputArray(step).controls;index as fileInputIndex">
                 <p class="bold">{{stepperNames[idx]['fileInputArray'][fileInputIndex]['name']}}</p>
                 <p>{{getInput(fileInput.get('formControl')?.value)}}</p>

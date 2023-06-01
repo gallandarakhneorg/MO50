@@ -16,6 +16,8 @@
 mat-form-field{
   width: 450px;
 }
+
+
 .green{
   color: green;
 }
@@ -46,3 +48,4 @@ mat-form-field{
 .bold{
   font-weight: bold;
 }
+
